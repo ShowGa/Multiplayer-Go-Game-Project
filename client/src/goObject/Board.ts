@@ -20,8 +20,19 @@ export class Board {
 
     // check if the target position been occupied
     if (this.state[row][col] !== null) {
+      return false;
     }
 
+    // put the stone in data structure
+    this.state[row][col] = color;
+
     return true;
+  }
+
+  // restart the board
+  cleanTheBoard(): void {
+    this.state = Array.from({ length: this.size }, () =>
+      Array.from({ length: this.size }, () => null)
+    );
   }
 }
