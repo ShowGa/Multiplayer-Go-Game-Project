@@ -1,8 +1,8 @@
 export type Stone = "b" | "w";
 
 export class Board {
-  private size: number;
-  private state: (Stone | null)[][];
+  size: number;
+  state: (Stone | null)[][];
 
   constructor(size: number) {
     this.size = size;
