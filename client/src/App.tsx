@@ -1,7 +1,11 @@
+import Battle from "./pages/Battle";
+
 function App() {
   return (
     <>
-      <div></div>
+      <div>
+        <Battle />
+      </div>
     </>
   );
 }
