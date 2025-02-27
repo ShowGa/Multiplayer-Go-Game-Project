@@ -1,4 +1,4 @@
-export type Stone = "b" | "w";
+export type Stone = "black" | "white";
 
 export class Board {
   size: number;

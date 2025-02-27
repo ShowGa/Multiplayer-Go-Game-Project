@@ -6,17 +6,17 @@ export class Game {
 
   constructor(boardSize: number) {
     this.board = new Board(boardSize);
-    this.turn = "b";
+    this.turn = "black";
   }
 
   initGame(): void {
     this.board.cleanTheBoard();
-    this.turn = "b";
+    this.turn = "black";
   }
 
   handleMove(row: number, col: number): boolean {
     if (this.board.placeStone(row, col, this.turn)) {
-      this.turn = this.turn === "b" ? "w" : "b";
+      this.turn = this.turn === "black" ? "white" : "black";
       return true;
     }
 
