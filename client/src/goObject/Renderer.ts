@@ -98,6 +98,37 @@ export class Renderer {
       this.ctxBoard.lineTo(position, this.canvasBoard.height - this.margin);
       this.ctxBoard.stroke();
     }
+
+    // draw the dot
+    this.drawStarDot();
+  }
+
+  drawStarDot(): void {
+    // set up the star position
+    const starPositions = [
+      [3, 3],
+      [3, 9],
+      [3, 15],
+      [9, 3],
+      [9, 9],
+      [9, 15],
+      [15, 3],
+      [15, 9],
+      [15, 15],
+    ];
+
+    const radius = (this.cellSize / 2) * 0.2;
+
+    this.ctxBoard.fillStyle = "black";
+
+    starPositions.forEach(([row, col]) => {
+      const x = this.margin + row * this.cellSize;
+      const y = this.margin + col * this.cellSize;
+
+      this.ctxBoard.beginPath();
+      this.ctxBoard.arc(x, y, radius, 0, Math.PI * 2);
+      this.ctxBoard.fill();
+    });
   }
 
   drawStone(row: number, col: number, color: Stone): void {
