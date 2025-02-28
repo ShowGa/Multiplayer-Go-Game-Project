@@ -121,40 +121,38 @@ const GoBoard: React.FC<GoBoardProps> = ({
   }, []);
 
   return (
-    <div>
-      <div
-        onClick={handleDropStone}
-        className="w-[780px] h-[780px] bg-orange-200"
-      >
-        <canvas
-          ref={canvasBoardRef}
-          width={780}
-          height={780}
-          style={{ position: "absolute", zIndex: "10" }}
-        />
-        <canvas
-          ref={canvasStoneRef}
-          width={780}
-          height={780}
-          style={{ position: "absolute", zIndex: "11" }}
-        />
-        <canvas
-          ref={canvasPreviewStoneRef}
-          width={780}
-          height={780}
-          style={{ position: "absolute", zIndex: "12" }}
-        />
-        <canvas
-          ref={canvasHighlightRef}
-          width={780}
-          height={780}
-          style={{ position: "absolute", zIndex: "13" }}
-          onMouseMove={handleShowPreviewStone}
-          onMouseLeave={() => {
-            rendererRef.current?.cleanPreviewStone();
-          }}
-        />
-      </div>
+    <div
+      onClick={handleDropStone}
+      className="w-[690px] h-[690px] bg-orange-200 rounded-lg"
+    >
+      <canvas
+        ref={canvasBoardRef}
+        width={690}
+        height={690}
+        style={{ position: "absolute", zIndex: "10" }}
+      />
+      <canvas
+        ref={canvasStoneRef}
+        width={690}
+        height={690}
+        style={{ position: "absolute", zIndex: "11" }}
+      />
+      <canvas
+        ref={canvasPreviewStoneRef}
+        width={690}
+        height={690}
+        style={{ position: "absolute", zIndex: "12" }}
+      />
+      <canvas
+        ref={canvasHighlightRef}
+        width={690}
+        height={690}
+        style={{ position: "absolute", zIndex: "13" }}
+        onMouseMove={handleShowPreviewStone}
+        onMouseLeave={() => {
+          rendererRef.current?.cleanPreviewStone();
+        }}
+      />
     </div>
   );
 };

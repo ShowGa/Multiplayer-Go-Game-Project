@@ -14,7 +14,7 @@ const Battle = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <GoBoard
         game={goGame}
         onStoneDrop={(row: number, col: number) => {
