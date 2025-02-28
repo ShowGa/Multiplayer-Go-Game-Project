@@ -141,15 +141,23 @@ export class Renderer {
 
     this.ctxPreviewStone.beginPath();
     this.ctxPreviewStone.arc(x, y, radius, 0, Math.PI * 2); // angle => Radian
+    this.ctxPreviewStone.globalAlpha = 0.5; // opacity
     this.ctxPreviewStone.fillStyle = color; // the color of the stone
     this.ctxPreviewStone.fill(); // fill up the circle
   }
-  cleanPreviewStone() {}
+  cleanPreviewStone() {
+    this.ctxPreviewStone.clearRect(
+      0,
+      0,
+      this.canvasBoard.width,
+      this.canvasBoard.height
+    );
+  }
 
-  drawHighlight(row: number, col: number, color: Stone): void {
+  drawHighlight(row: number, col: number): void {
     const x = this.margin + col * this.cellSize;
     const y = this.margin + row * this.cellSize;
-    const radius = (this.cellSize / 2) * 0.8;
+    const radius = (this.cellSize / 2) * 0.3;
 
     // clear the previous hightlight
     this.ctxHighlight.clearRect(
@@ -161,8 +169,7 @@ export class Renderer {
 
     this.ctxHighlight.beginPath();
     this.ctxHighlight.arc(x, y, radius, 0, Math.PI * 2);
-    this.ctxHighlight.strokeStyle = color;
-    this.ctxHighlight.globalAlpha = 0.6; // opacity
-    this.ctxHighlight.stroke();
+    this.ctxHighlight.fillStyle = "red";
+    this.ctxHighlight.fill();
   }
 }
