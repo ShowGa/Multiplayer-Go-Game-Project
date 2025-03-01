@@ -33,7 +33,7 @@ const Login: React.FC = () => {
       </div>
 
       <div className="w-2/5 flex flex-col justify-center items-center bg-white p-8">
-        <h1 className="text-3xl font-bold mb-6">Login</h1>
+        <h1 className="text-3xl font-bold mb-6">登入</h1>
 
         <form onSubmit={handleSubmit} className="w-3/4 flex flex-col gap-4">
           <div>
