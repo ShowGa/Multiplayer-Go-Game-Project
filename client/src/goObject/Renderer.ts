@@ -1,5 +1,4 @@
 import { Stone } from "../types/types";
-import { Board } from "./Board";
 
 export class Renderer {
   canvasBoard: HTMLCanvasElement; // Board layer
@@ -10,7 +9,9 @@ export class Renderer {
   ctxStone: CanvasRenderingContext2D;
   ctxPreviewStone: CanvasRenderingContext2D;
   ctxHighlight: CanvasRenderingContext2D;
-  board: Board;
+  // Separate the properties from Board obj instead of using the obj straightly for decoupling .
+  boardSize: number;
+  boardState: (Stone | null)[][];
   margin: number;
   cellSize: number;
 
@@ -19,14 +20,16 @@ export class Renderer {
     canvasStone: HTMLCanvasElement,
     canvasPreviewStone: HTMLCanvasElement,
     canvasHighlight: HTMLCanvasElement,
-    board: Board,
+    boardSize: number,
+    boardState: (Stone | null)[][],
     margin: number
   ) {
     this.canvasBoard = canvasBoard;
     this.canvasStone = canvasStone;
     this.canvasPreviewStone = canvasPreviewStone;
     this.canvasHighlight = canvasHighlight;
-    this.board = board;
+    this.boardSize = boardSize;
+    this.boardState = boardState;
     this.margin = margin;
 
     const contextBoard = this.canvasBoard.getContext("2d");
@@ -50,7 +53,7 @@ export class Renderer {
 
     // calculate the cellsize based on the lattice
     this.cellSize =
-      (this.canvasBoard.width - this.margin * 2) / (this.board.size - 1);
+      (this.canvasBoard.width - this.margin * 2) / (this.boardSize - 1);
   }
 
   // ========== public method ========== //
@@ -84,7 +87,7 @@ export class Renderer {
   drawGrid(): void {
     this.ctxBoard.strokeStyle = "#000"; // color
 
-    for (let i = 0; i < this.board.size; i++) {
+    for (let i = 0; i < this.boardSize; i++) {
       const position = this.margin + i * this.cellSize; // vertical and horizontal
 
       // horizontal
@@ -144,9 +147,9 @@ export class Renderer {
   }
 
   drawAllTheStones(): void {
-    for (let row = 0; row < this.board.size; row++) {
-      for (let col = 0; col < this.board.size; col++) {
-        const stone = this.board.state[row][col];
+    for (let row = 0; row < this.boardSize; row++) {
+      for (let col = 0; col < this.boardSize; col++) {
+        const stone = this.boardState[row][col];
         if (stone !== null) {
           this.drawStone(row, col, stone);
         }
@@ -164,7 +167,7 @@ export class Renderer {
     );
 
     // no need to draw when the position was occupied
-    if (this.board.state[row][col] !== null) return;
+    if (this.boardState[row][col] !== null) return;
 
     // draw
     const x = this.margin + col * this.cellSize;

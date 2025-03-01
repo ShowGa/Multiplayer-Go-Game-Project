@@ -1,15 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
+
+import { throttle } from "lodash";
 
 import { Renderer } from "../goObject/Renderer";
-import { Game } from "../goObject/Game";
+import { GoBoardProps } from "../types/propsTypes";
 
-type GoBoardProps = {
-  game: Game;
-  onStoneDrop: (row: number, col: number) => boolean;
-};
+// newStoneData later will be used for socket.io multiplayer
 
 const GoBoard: React.FC<GoBoardProps> = ({
-  game,
+  boardSize,
+  boardState,
+  currentTurn,
+  newStoneData,
   onStoneDrop,
 }: GoBoardProps) => {
   const canvasBoardRef = useRef(null);
@@ -25,9 +27,9 @@ const GoBoard: React.FC<GoBoardProps> = ({
 
     const margin = rendererRef.current.margin;
     const cellSize = rendererRef.current.cellSize;
-    const boardSize = rendererRef.current.board.size;
+    const boardSize = rendererRef.current.boardSize;
 
-    const turn = game.turn;
+    let turn = currentTurn;
 
     // calculate the position
     const [row, col] = getRowColFromMouseEvent(
@@ -51,27 +53,28 @@ const GoBoard: React.FC<GoBoardProps> = ({
     rendererRef.current.drawHighlight(row, col);
   }
 
-  function handleShowPreviewStone(e: React.MouseEvent) {
-    if (!rendererRef.current) return;
+  const throttledShowPreviewStone = useCallback(
+    throttle((e: React.MouseEvent) => {
+      if (!rendererRef.current) return;
+      const margin = rendererRef.current.margin;
+      const cellSize = rendererRef.current.cellSize;
+      const boardSize = rendererRef.current.boardSize;
+      const turn = currentTurn;
 
-    const margin = rendererRef.current.margin;
-    const cellSize = rendererRef.current.cellSize;
-    const boardSize = rendererRef.current.board.size;
+      // calculate the position
+      const [row, col] = getRowColFromMouseEvent(
+        e,
+        rendererRef.current.canvasHighlight,
+        margin,
+        cellSize,
+        boardSize
+      );
 
-    const turn = game.turn;
-
-    // calculate the position
-    const [row, col] = getRowColFromMouseEvent(
-      e,
-      rendererRef.current.canvasHighlight,
-      margin,
-      cellSize,
-      boardSize
-    );
-
-    // draw preview
-    rendererRef.current.drawPreviewStone(row, col, turn);
-  }
+      // draw preview
+      rendererRef.current.drawPreviewStone(row, col, turn);
+    }, 100), // second parameter is delay time
+    []
+  );
 
   function getRowColFromMouseEvent(
     e: MouseEvent | React.MouseEvent,
@@ -110,7 +113,8 @@ const GoBoard: React.FC<GoBoardProps> = ({
         canvasStoneRef.current,
         canvasPreviewStoneRef.current,
         canvasHighlightRef.current,
-        game.board,
+        boardSize,
+        boardState,
         20
       );
 
@@ -148,7 +152,7 @@ const GoBoard: React.FC<GoBoardProps> = ({
         width={690}
         height={690}
         style={{ position: "absolute", zIndex: "13" }}
-        onMouseMove={handleShowPreviewStone}
+        onMouseMove={throttledShowPreviewStone}
         onMouseLeave={() => {
           rendererRef.current?.cleanPreviewStone();
         }}
