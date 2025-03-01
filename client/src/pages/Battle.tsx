@@ -5,7 +5,7 @@ import { Game } from "../goObject/Game";
 
 const Battle = () => {
   const [goGame, setGoGame] = useState(new Game(19));
-  // const [goGameState, setGoGameState] = useState(goGame.board.state);
+  const [socketDropData, setSocketDropData] = useState();
 
   const handleMove = (row: number, col: number): boolean => {
     const result = goGame.handleMove(row, col);

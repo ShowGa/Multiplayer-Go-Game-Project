@@ -1,4 +1,5 @@
-import { Board, Stone } from "./Board";
+import { Stone } from "../types/types";
+import { Board } from "./Board";
 
 export class Renderer {
   canvasBoard: HTMLCanvasElement; // Board layer

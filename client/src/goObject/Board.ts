@@ -1,4 +1,4 @@
-export type Stone = "black" | "white";
+import { Stone } from "../types/types";
 
 export class Board {
   size: number;
