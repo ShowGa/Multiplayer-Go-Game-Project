@@ -20,7 +20,7 @@ export const useBoard = (): BoardContextProps => {
   const context = useContext(BoardContext);
 
   if (!context) {
-    throw new Error("useBoard must be used withing a  !");
+    throw new Error("useBoard must be used withing a BoardProvider !");
   }
 
   return context;
